@@ -1,10 +1,5 @@
-## Recibe una IP y un prefijo.
-#prefijo /24 2^24
+# Funcionamiento -- # python calc_hosts_vol2.py 192.168.0.1/24
 
-# recibe un 192.168.81.1 netmask 255.255.255.0 
-
-#Modo de uso
-#python calc_hosts 192.168.0.1 255.255.255.0
 import argparse
 
 def calcular_red(ip, netmask):
@@ -20,28 +15,50 @@ def calcular_red(ip, netmask):
 
     return direccion_red
 
+def calcular_cidr(prefijo):
+    return int(prefijo)
 
-def calcular_cidr(netmask):
-    octetos_netmask = netmask.split('.')
-    bits = sum([bin(int(x)).count('1') for x in octetos_netmask])
-    return bits
+def calcular_netmask(prefijo):
+    bits = prefijo
+    netmask = '.'.join([str((0xffffffff << (32 - bits) >> i) & 0xff) for i in [24, 16, 8, 0]])
+    return netmask
+
+def calcular_hosts_disponibles(prefijo):
+    hosts_disponibles = 2 ** (32 - prefijo) - 2
+    return hosts_disponibles
+
+def calcular_clase(ip):
+    primer_octeto = int(ip.split('.')[0])
+    if primer_octeto <= 127:
+        return 'A'
+    elif primer_octeto <= 191:
+        return 'B'
+    elif primer_octeto <= 223:
+        return 'C'
+    else:
+        return 'No definida'
+
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('ip', help='Dirección IP')
-    parser.add_argument('netmask', help='Máscara de red')
+    parser.add_argument('ip_prefijo', help='Dirección IP y prefijo de red en formato IP/Prefijo (Ejemplo: 192.168.0.1/24)')
     args = parser.parse_args()
 
-    direccion_red = calcular_red(args.ip, args.netmask)
-    cidr = calcular_cidr(args.netmask)
+    ip, prefijo = args.ip_prefijo.split('/')
 
-    print('Dirección de red: ', direccion_red)
-    print(f"Prefijo de red: /{cidr}")
-    hosts_disponibles = 2 ** (32 - cidr)
-    print(f"Número de hosts disponibles: {hosts_disponibles}")
+    cidr = calcular_cidr(prefijo)
+    netmask = calcular_netmask(cidr)
+    hosts_disponibles = calcular_hosts_disponibles(cidr)
+    clase = calcular_clase(ip)
+    direccion_red = calcular_red(ip, netmask)
 
+    print('Dirección de red:', direccion_red,'/',cidr)
+    print('-----------------------------------------------')
+    print('Máscara de subred:', netmask)
+    print('Número de hosts disponibles:', hosts_disponibles)
+    print('Clase de red:', clase)
+    print('-----------------------------------------------')
 
 if __name__ == '__main__':
     main()
-
