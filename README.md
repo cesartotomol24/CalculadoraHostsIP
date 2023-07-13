@@ -5,10 +5,8 @@ Uso:
 python 10.132.144.0/20
 
 -----------------------------------------------
-Resultados:
+Salida:
 ---
-Máscara de subred: 255.255.240.0 \n
-Número de hosts disponibles: 4094 \n
+Máscara de subred: 255.255.240.0
+Número de hosts disponibles: 4094 
 Clase de red: A \n
-
------------------------------------------------
