@@ -2,11 +2,13 @@
 Calculadora de IP
 
 Uso: 
-Dirección de red: 10.132.144.0 / 20
+python 10.132.144.0/20
 
 -----------------------------------------------
-Máscara de subred: 255.255.240.0
-Número de hosts disponibles: 4094
-Clase de red: A
+Resultados:
+---
+Máscara de subred: 255.255.240.0 \n
+Número de hosts disponibles: 4094 \n
+Clase de red: A \n
 
 -----------------------------------------------
