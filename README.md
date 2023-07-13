@@ -1,4 +1,4 @@
-# Calculadora subredes IP
+# Calculadora de total hosts IP
 Calculadora de IP
 
 Uso: 
